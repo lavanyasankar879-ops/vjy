@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vijay & Lavanya Engagement</title>
+    <style>
+        @import url('https://googleapis.com');
+
+        body {
+            background: linear-gradient(135deg, #2c1a11 0%, #110905 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Montserrat', sans-serif;
+            padding: 20px;
+        }
+
+        .invitation-card {
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.65)), 
+                        url('https://unsplash.com') no-repeat center top;
+            background-size: cover;
+            width: 430px;
+            height: 820px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+            border-radius: 16px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 3px solid #d4af37;
+        }
+
+        .header-blessing {
+            margin-top: 30px;
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 600;
+            text-align: center;
+            color: #ffffff;
+            text-shadow: 1px 1px 4px rgba(0,0,0,0.9);
+            line-height: 1.6;
+        }
+
+        .countdown-container {
+            margin-top: 20px;
+            background: rgba(80, 27, 27, 0.85);
+            border: 1px solid #d4af37;
+            padding: 10px 15px;
+            border-radius: 8px;
+            display: flex;
+            gap: 15px;
+            color: #fff;
+        }
+
+        .countdown-item {
+            text-align: center;
+        }
+
+        .countdown-value {
+            font-family: 'Cinzel', serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: #d4af37;
+            display: block;
+        }
+
+        .countdown-label {
+            font-size: 9px;
+            text-transform: uppercase;
+            color: #ddd;
+        }
+
+        .details-container {
+            background-color: rgba(254, 250, 238, 0.97);
+            width: 88%;
+            margin-top: auto;
+            margin-bottom: 25px;
+            border-radius: 30px;
+            border: 2px solid #d4af37;
+            padding: 25px 20px;
+            box-sizing: border-box;
+            text-align: center;
+            z-index: 2;
+        }
+
+        .main-title {
+            font-family: 'Cinzel', serif;
+            font-size: 22px;
+            color: #591d1d;
+            margin: 5px 0;
+        }
+
+        .couple-names {
+            font-family: 'Great Vibes', cursive;
+            font-size: 44px;
+            color: #8a1c1c;
+            margin: 5px 0;
+        }
+
+        .couple-names span {
+            font-family: 'Cinzel', serif;
+            font-size: 22px;
+            color: #d4af37;
+        }
+
+        /* Container styled to match the sticker frame look */
+        .scratch-card-box {
+            position: relative;
+            width: 260px;
+            height: 240px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            border-radius: 24px;
+            padding: 8px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            box-sizing: border-box;
+        }
+
+        /* Purple layout inside matching the screenshot */
+        .revealed-date-grid {
+            background-color: #8585c7;
+            height: 100%;
+            width: 100%;
+            border-radius: 18px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            top: 0;
+            left: 0;
+            box-sizing: border-box;
+            font-family: 'Comic Neue', sans-serif;
+            color: #000000;
+            padding: 10px;
+            
+            /* Mimics rough torn-paper effect edge lines */
+            clip-path: polygon(2% 0%, 98% 1%, 100% 4%, 99% 95%, 97% 100%, 3% 99%, 0% 96%, 1% 5%);
+        }
+
+        .sticker-day-name {
+            font-size: 26px;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+
+        .sticker-day-num {
+            font-size: 58px;
+            line-height: 1;
+            margin: 5px 0;
+        }
+
+        .sticker-month {
+            font-size: 28px;
+            text-transform: uppercase;
+            margin: 5px 0;
+        }
+
+        .sticker-year {
+            font-size: 26px;
+            margin-top: 5px;
+        }
+
+        #scratch-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            cursor: pointer;
+            z-index: 3;
+            touch-action: none;
+            border-radius: 24px;
+        }
+
+        .scratch-instruction {
+            font-size: 11px;
+            color: #a67c52;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .venue-name {
+            font-family: 'Cinzel', serif;
+            font-size: 15px;
+            font-weight: 700;
+            color: #591d1d;
+        }
+
+        .venue-city {
+            font-size: 12px;
+            text-transform: uppercase;
+            color: #4a2810;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="invitation-card">
+        <div class="header-blessing">
+            Together with<br>the blessings of our families
+        </div>
+
+        <div class="countdown-container">
+            <div class="countdown-item"><span class="countdown-value" id="days">00</span><span class="countdown-label">Days</span></div>
+            <div class="countdown-item"><span class="countdown-value" id="hours">00</span><span class="countdown-label">Hrs</span></div>
+            <div class="countdown-item"><span class="countdown-value" id="minutes">00</span><span class="countdown-label">Mins</span></div>
+            <div class="countdown-item"><span class="countdown-value" id="seconds">00</span><span class="countdown-label">Secs</span></div>
+        </div>
+
+        <div class="details-container">
+            <div class="main-title">ENGAGEMENT</div>
+            <div class="couple-names">Vijay <span>&</span> Lavanya</div>
+
+            <div class="scratch-instruction" id="scratch-text">👆 Scratch the sticker to reveal date</div>
+
+            <!-- Purple Sticker Style Scratch Wrapper Box -->
+            <div class="scratch-card-box">
+                <div class="revealed-date-grid">
+                    <div class="sticker-day-name">MONDAY</div>
+                    <div class="sticker-day-num">12</div>
+                    <div class="sticker-month">OCTOBER</div>
+                    <div class="sticker-year">2026</div>
+                </div>
+                <canvas id="scratch-canvas" width="260" height="240"></canvas>
+            </div>
+
+            <div class="venue-name">📍 SINDHOOR HALL</div>
+            <div class="venue-city">TRICHY</div>
+        </div>
+    </div>
+
+    <script>
+        // Countdown Logic
+        const eventDate = new Date("October 12, 2026 11:00:00").getTime();
+        setInterval(function() {
+            const distance = eventDate - new Date().getTime();
+            document.getElementById("days").innerText = Math.floor(distance / (1000 * 60 * 60 * 24));
+            document.getElementById("hours").innerText = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            document.getElementById("minutes").innerText = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            document.getElementById("seconds").innerText = Math.floor((distance % (1000 * 60)) / 1000);
+        }, 1000);
+
+        // Scratch Card Logic
+        const canvas = document.getElementById("scratch-canvas");
+        const ctx = canvas.getContext("2d");
+        let isDrawing = false;
+
+        function initScratchCard() {
+            // Gold metallic covering layer
+            ctx.fillStyle = "#d4af37";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            for(let i=0; i<400; i++) {
+                ctx.fillStyle = i % 2 === 0 ? "rgba(255,255,255,0.2)" : "rgba(0,0,0,0.15)";
+                ctx.fillRect(Math.random()*canvas.width, Math.random()*canvas.height, 2, 2);
+            }
+        }
+        initScratchCard();
+
+        function scratch(e) {
+            if (!isDrawing) return;
+            const rect = canvas.getBoundingClientRect();
+            const x = (e.clientX || e.touches[0].clientX) - rect.left;
+            const y = (e.clientY || e.touches[0].clientY) - rect.top;
+
+            ctx.globalCompositeOperation = 'destination-out';
+            ctx.beginPath();
+            ctx.arc(x, y, 24, 0, Math.PI * 2);
+            ctx.fill();
+            checkReveal();
+        }
+
+        function checkReveal() {
+            const data = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+            let cleared = 0;
+            for (let i = 3; i < data.length; i += 4) { if (data[i] === 0) cleared++; }
+            if ((cleared / (data.length / 4)) * 100 > 50) {
+                canvas.style.transition = "opacity 0.4s ease";
+                canvas.style.opacity = 0;
+                setTimeout(() => canvas.remove(), 400);
+                document.getElementById("scratch-text").innerText = "✨ Date Revealed Successfully ✨";
+            }
+        }
+
+        canvas.addEventListener("mousedown", () => isDrawing = true);
+        canvas.addEventListener("mouseup", () => isDrawing = false);
+        canvas.addEventListener("mousemove", scratch);
+        canvas.addEventListener("touchstart", () => isDrawing = true);
+        canvas.addEventListener("touchend", () => isDrawing = false);
